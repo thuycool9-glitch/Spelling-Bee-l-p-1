@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spelling Bee – English Champion</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Comic Sans MS","Trebuchet MS",Arial,sans-serif;background:linear-gradient(#fff3b0,#cfe8ff);color:#234;text-align:center}
+.scr{display:none;max-width:760px;margin:auto;padding:14px}.scr.on{display:block}
+h1{font-size:clamp(34px,8vw,60px);margin:6px;color:#f59e0b;text-shadow:3px 3px #fff}
+.card{background:#fff;border-radius:28px;padding:16px;box-shadow:0 8px 0 #f5c542,0 12px 24px #0003;margin:10px 0;position:relative}
+.btn{font:inherit;font-weight:700;font-size:clamp(16px,4.5vw,22px);border:0;border-radius:40px;padding:12px 26px;margin:5px;background:#ffb300;color:#fff;box-shadow:0 5px 0 #c27f00;cursor:pointer}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0}.bl{background:#2d9cdb;box-shadow:0 5px 0 #1b6fa0}.or{background:#ff7a2f;box-shadow:0 5px 0 #c2501a}.gr{background:#3cb95a;box-shadow:0 5px 0 #25803c}
+input{font:inherit;font-size:22px;padding:12px;border-radius:20px;border:4px solid #2d9cdb;text-align:center;width:min(320px,90%);margin:8px}
+.bee{font-size:110px;display:inline-block;animation:fl 2s ease-in-out infinite}.big{font-size:clamp(90px,26vw,150px);line-height:1.1;animation:fl 3s ease-in-out infinite;min-height:130px}
+@keyframes fl{50%{transform:translateY(-10px) rotate(4deg)}}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.opt,.tile{font:inherit;font-weight:700;font-size:clamp(20px,6vw,30px);padding:14px 6px;border-radius:22px;border:4px solid #2d9cdb;background:#eaf6ff;color:#1b4965;cursor:pointer}
+.opt:disabled,.tile:disabled{cursor:default}.opt.em{font-size:56px}.good{background:#8de58d!important;border-color:#25803c!important}.bad{background:#ffa6a6!important;border-color:#c00!important}
+.tiles{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.tile{min-width:56px}
+.pat{font-size:clamp(30px,9vw,52px);letter-spacing:6px;font-weight:700;color:#ff7a2f;min-height:56px;margin:6px}
+#bar{height:16px;background:#ffb300;width:0;border-radius:10px;transition:width .4s}.pb{background:#fff;border-radius:10px;border:3px solid #fff;overflow:hidden}
+.hd{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;font-weight:700;margin:6px 0}
+.yes{font-size:34px;font-weight:700;color:#25a244;animation:fl .6s 2}.no{font-size:30px;font-weight:700;color:#e5632d}
+.shake{animation:sk .4s}@keyframes sk{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.dance{animation:dn .5s 3}@keyframes dn{50%{transform:translateY(-20px) rotate(-15deg) scale(1.2)}}
+.cf{position:fixed;top:-10%;font-size:28px;pointer-events:none;animation:fall linear forwards;z-index:9}@keyframes fall{to{top:105%;transform:rotate(540deg)}}
+table{margin:auto;border-collapse:collapse}td{padding:6px 14px;border-bottom:2px dashed #ffd}
+.cert{border:12px double #f59e0b;background:#fffdf0;padding:24px}.sm{font-size:15px;color:#567}
+@media print{.np{display:none!important}body{background:#fff}.card{box-shadow:none}}
+</style></head><body>
+
+<section id="st0" class="scr on"><div class="card">
+<div class="bee" id="b0">🐝</div><h1>SPELLING BEE</h1><h2 style="margin:0;color:#2d9cdb">English Champion</h2>
+<p style="font-size:20px"><b>Are you ready to become a Spelling Champion?</b></p>
+<input id="nm" maxlength="20" placeholder="Tên của em / Your name"><br>
+<button class="btn gr" onclick="start()">▶ START GAME</button>
+<button class="btn bl" onclick="go('hw')">❓ HOW TO PLAY</button><br>
+<button class="btn or sndb" onclick="tog()">🔊 SOUND ON</button>
+<button class="btn or" onclick="mus()" id="mb">🎵 MUSIC OFF</button>
+<button class="btn bl" onclick="fs()">⛶ FULLSCREEN</button>
+</div></section>
+
+<section id="hw" class="scr"><div class="card" style="text-align:left;font-size:19px">
+<h2 style="text-align:center">❓ HOW TO PLAY – Cách chơi</h2>
+<p>🐝 Có <b>60 câu</b>, chia thành <b>6 vòng</b> (mỗi vòng 10 câu). Mỗi câu đúng được <b>10 điểm</b>.</p>
+<p>1️⃣ Look and Spell: nhìn tranh, chọn từ viết đúng.<br>2️⃣ Missing Letters: chọn chữ cái còn thiếu.<br>3️⃣ Unscramble: bấm các chữ cái theo đúng thứ tự.<br>4️⃣ Listen and Spell: bấm 🔊 nghe, rồi chọn từ viết đúng.<br>5️⃣ Word Detective: nhiều trò chơi thám tử.<br>6️⃣ Champion: tự gõ từ tiếng Anh (có 1 lần gợi ý 💡).</p>
+<p>⭐ Trả lời sai không bị trừ điểm. Em sẽ thấy đáp án đúng để học lại!</p>
+<div style="text-align:center"><button class="btn" onclick="go('st0')">⬅ BACK</button></div></div></section>
+
+<section id="g" class="scr">
+<div class="hd np"><span id="info"></span><span id="st"></span><span><button class="btn sndb" style="padding:4px 12px;font-size:16px" onclick="tog()">🔊</button><button class="btn" style="padding:4px 12px;font-size:16px" onclick="fs()">⛶</button></span></div>
+<div class="pb"><div id="bar"></div></div>
+<div class="card" id="card"><div style="position:absolute;left:8px;top:4px;font-size:40px" id="gb">🐝</div>
+<div id="en" style="font-size:24px;font-weight:700;color:#2d9cdb"></div><div id="vi" class="sm"></div>
+<div class="big" id="big"></div><div id="ans"></div><div id="fb" style="min-height:50px"></div>
+<button class="btn gr" id="nx" style="display:none" onclick="nxt()">NEXT ➡</button></div></section>
+
+<section id="rd" class="scr"><div class="card"><h1>🎉 Round Complete!</h1><div class="bee">🏅</div>
+<h2 id="rb"></h2><h2 id="rsc"></h2><button class="btn gr" onclick="cont()">CONTINUE ➡</button></div></section>
+
+<section id="sm" class="scr"><div class="card"><div class="bee" style="font-size:80px">🐝</div><h2 id="sn"></h2>
+<h1 id="ss" style="color:#2d9cdb"></h1><h2 id="sr"></h2><p id="sd" style="font-size:19px"></p><table id="tb"></table>
+<p style="font-size:22px"><b>You are amazing! Keep learning and keep shining!</b></p>
+<div class="np"><button class="btn gr" onclick="start(1)">🔄 PLAY AGAIN</button><button class="btn or" onclick="rev()">📝 REVIEW WRONG ANSWERS</button><button class="btn bl" onclick="cert()">📜 SHOW CERTIFICATE</button><button class="btn" onclick="print()">🖨 PRINT RESULTS</button></div></div></section>
+
+<section id="rv" class="scr"><div class="card"><h2>📝 Review – Ôn lại câu sai</h2><div id="rl"></div>
+<button class="btn np" onclick="go('sm')">⬅ BACK</button></div></section>
+
+<section id="ct" class="scr"><div class="card cert"><div style="font-size:70px">🐝🏆</div><h1>Certificate</h1><p style="font-size:20px">This certificate is proudly given to</p>
+<h2 id="cn" style="font-size:40px;color:#2d9cdb;margin:8px"></h2><p style="font-size:20px">for completing Spelling Bee – English Champion<br>with a score of <b id="cs"></b></p><h2 id="cr"></h2><p id="cd" class="sm"></p></div>
+<div class="np"><button class="btn bl" onclick="print()">🖨 PRINT</button><button class="btn" onclick="go('sm')">⬅ BACK</button></div></section>
+
+<script>
+const W=[['book','📖'],['pen','🖊️'],['pencil','✏️'],['ruler','📏'],['bag','🎒'],['chair','🪑'],['teacher','🧑‍🏫'],['school','🏫'],['notebook','📓'],
+['football','⚽'],['basketball','🏀'],['tennis','🎾'],['badminton','🏸'],['swimming','🏊'],['running','🏃'],['cycling','🚴'],['dancing','💃'],['singing','🎤'],['drawing','🎨'],['kite','🪁'],
+['car','🚗'],['bus','🚌'],['bike','🚲'],['train','🚆'],['plane','✈️'],['boat','⛵'],['ship','🚢'],['taxi','🚕'],['truck','🚚'],['helicopter','🚁'],['scooter','🛴'],['motorbike','🏍️'],
+['teddy bear','🧸'],['robot','🤖'],['puzzle','🧩'],['dinosaur','🦖'],['yo-yo','🪀'],['blocks','🧱']];
+const BADGES=['Picture Star','Letter Master','Word Builder','Listening Hero','Word Detective','Spelling Champion'];
+const $=s=>document.querySelector(s),AZ='abcdefghijklmnopqrstuvwxyz',Wd=i=>W[i][0],E=i=>W[i][1];
+const EM=w=>W.find(x=>x[0]==w)[1],pk=a=>a[Math.random()*a.length|0],tp=i=>i<9?0:i<20?1:i<32?2:3;
+const sh=a=>{a=[...a];for(let i=a.length;i>1;){const j=Math.random()*i--|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+let Q,n,sc,ok,ko,rs,wr,locked,name,sfx=1,mu=0,ac,mt,pick;
+function mis(w){const s=new Set();let t=0;while(s.size<3&&t++<300){const a=w.split(''),p=a.map((c,i)=>/[a-z]/.test(c)?i:-1).filter(i=>i>=0),i=pk(p),o=Math.random()*4|0;
+if(o==0&&/[a-z]/.test(a[i+1]||''))[a[i],a[i+1]]=[a[i+1],a[i]];else if(o==1)a[i]=pk([...AZ]);else if(o==2)a.splice(i,1);else a.splice(i,0,a[i]);
+const m=a.join('');if(m!==w&&m.length>1)s.add(m)}return[...s]}
+const oth=i=>sh(W.map((_,k)=>k).filter(k=>tp(k)!=tp(i))).slice(0,1);
+function mk(){const Q=[];
+sh([2,3,9,10,23,29,32,33,21,0]).forEach(i=>Q.push({r:1,t:'c',w:Wd(i),e:E(i),en:'Look and spell!',vi:'Nhìn tranh, chọn cách viết đúng.',o:sh([Wd(i),...mis(Wd(i)).slice(0,1)]),a:Wd(i)}));
+sh([0,4,5,20,22,25,28,35,12,7]).forEach(i=>{const w=Wd(i),p=1+Math.random()*(w.length-1)|0,L=w[p];
+Q.push({r:2,t:'c',w,e:E(i),en:'Missing letters!',vi:'Chọn chữ cái còn thiếu.',show:w.split('').map((c,k)=>k==p?'_':c).join(' ').toUpperCase(),o:sh([L,...sh([...AZ]).filter(x=>x!=L).slice(0,1)]).map(x=>x.toUpperCase()),a:L.toUpperCase()})});
+sh([21,1,24,26,27,34,30,8,6,19]).forEach(i=>{const w=Wd(i);let l;do l=sh([...w]);while(l.join('')==w);Q.push({r:3,t:'s',w,e:E(i),en:'Unscramble the word!',vi:'Bấm các chữ cái theo đúng thứ tự.',l})});
+sh([11,13,14,15,16,17,18,31,37,36]).forEach(i=>Q.push({r:4,t:'c',hide:1,say:Wd(i),w:Wd(i),e:E(i),en:'Listen and spell!',vi:'Bấm 🔊 để nghe, rồi chọn cách viết đúng.',o:sh([Wd(i),...mis(Wd(i)).slice(0,1)]),a:Wd(i)}));
+sh([['p',22],['p',35],['p',25],['w',24],['w',5],['w',33],['o',2,0],['o',1,3],['c',26],['c',33]]).forEach(([k,i,b])=>{
+if(k=='p')Q.push({r:5,t:'c',w:Wd(i),e:E(i),en:'Detective: Find the word!',vi:'Nhìn tranh, tìm từ đúng.',o:sh([Wd(i),...oth(i).map(Wd)]),a:Wd(i)});
+if(k=='w')Q.push({r:5,t:'c',em:1,w:Wd(i),e:E(i),en:'Detective: Match the picture!',vi:'Đọc từ, chọn hình đúng.',o:sh([E(i),...oth(i).map(E)]),a:E(i)});
+if(k=='o'){const pool=t=>sh(W.map((_,x)=>x).filter(x=>tp(x)==t&&x!=19&&x!=36)),A=pool(i).slice(0,3),B=pool(b)[0];
+Q.push({r:5,t:'c',lab:1,w:Wd(B),e:'🔍',en:'Detective: Odd one out!',vi:'Từ nào KHÔNG cùng nhóm với hai từ này?',show:A.slice(0,2).map(k=>E(k)+' '+Wd(k)).join(' • '),o:sh([Wd(A[2]),Wd(B)]),a:Wd(B)})}
+if(k=='c'){const w=Wd(i),x=Math.random()*w.length|0,a=w.split('');a[x]=pk([...AZ].filter(c=>c!=w[x]));
+const y=pk([...w].map((c,k)=>k).filter(k=>k!=x&&w[k]!=a[x]));
+Q.push({r:5,t:'c',x:1,w,e:E(i),en:'Detective: Wrong letter!',vi:'Từ này viết sai một chữ cái. Chữ nào sai?',show:a.join(' ').toUpperCase(),o:sh([x+'|'+a[x].toUpperCase(),y+'|'+w[y].toUpperCase()]),a:x+'|'+a[x].toUpperCase()})}});
+sh([29,10,9,32,35,34,26,6,18,31]).forEach(i=>Q.push({r:6,t:'t',w:Wd(i),e:E(i),en:'Spelling Bee Champion!',vi:'Viết từ tiếng Anh vào ô trống.'}));
+return Q}
+function go(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));$('#'+id).classList.add('on');scrollTo(0,0)}
+function start(again){name=($('#nm').value||'').trim()||'Little Bee';Q=mk();n=sc=ok=ko=0;rs=[0,0,0,0,0,0];wr=[];go('g');show()}
+function show(){locked=false;const q=Q[n],a=$('#ans');pick=[];
+$('#bar').style.width=n/60*100+'%';$('#info').textContent=`Round ${q.r}/6 · Câu ${n+1}/60`;upd();
+$('#en').textContent=q.en;$('#vi').textContent=q.vi;$('#fb').innerHTML='';$('#nx').style.display='none';$('#card').className='card';
+$('#big').innerHTML=q.em?`<span style="font-size:60px">${q.w.toUpperCase()}</span>`:q.hide?'🎧':q.e;
+let h='';
+if(q.t=='c'){h=(q.show?`<div class="pat">${q.show}</div>`:'')+(q.say?`<button class="btn bl" id="lis">🔊 NGHE / LISTEN</button><button class="btn" id="hnt">💡 Xem hình</button>`:'')+
+'<div class="grid">'+q.o.map(v=>{const l=q.lab?EM(v)+' '+v:q.x?v.split('|')[1]:v;return`<button class="opt${q.em?' em':''}" data-v="${v}">${l}</button>`}).join('')+'</div>'}
+if(q.t=='s')h=`<div class="pat" id="sl"></div><div class="tiles">${q.l.map((c,k)=>`<button class="tile" data-k="${k}">${c.toUpperCase()}</button>`).join('')}</div><button class="btn or" id="clr">↺ Xóa</button>`;
+if(q.t=='t')h=`<div class="pat" id="pt">${q.w.replace(/[a-z]/g,'_ ').trim()}</div><input id="ti" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type here..."><br><button class="btn gr" id="ok">CHECK ✅</button><button class="btn" id="hnt">💡 Gợi ý (1 lần)</button>`;
+a.innerHTML=h;
+if(q.t=='s')sl();
+if(q.say){setTimeout(()=>say(q.say),400);$('#lis').onclick=()=>say(q.say);$('#hnt').onclick=()=>{$('#big').textContent=q.e;$('#hnt').disabled=true};
+if(!('speechSynthesis'in window)){$('#fb').innerHTML='<div class="sm">⚠️ Trình duyệt không hỗ trợ giọng đọc. Hãy xem hình gợi ý nhé!</div>';$('#big').textContent=q.e}}
+if(q.t=='t'){$('#ok').onclick=()=>chk($('#ti').value.trim().toLowerCase().replace(/\s+/g,' ')==q.w);$('#ti').onkeydown=e=>{if(e.key=='Enter')$('#ok').click()};
+$('#hnt').onclick=()=>{$('#pt').textContent=q.w[0].toUpperCase()+' '+q.w.slice(1).replace(/[a-z]/g,'_ ').trim();$('#hnt').disabled=true;$('#ti').focus()};$('#ti').focus()}}
+function sl(){const q=Q[n],s=pick.map(k=>q.l[k].toUpperCase());while(s.length<q.l.length)s.push('_');$('#sl').textContent=s.join(' ')}
+$('#ans').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||locked)return;const q=Q[n];
+if(b.classList.contains('opt'))chk(b.dataset.v===q.a,b);
+else if(b.classList.contains('tile')){pick.push(+b.dataset.k);b.disabled=true;sl();if(pick.length==q.l.length)chk(pick.map(k=>q.l[k]).join('')==q.w)}
+else if(b.id=='clr'){pick=[];document.querySelectorAll('.tile').forEach(t=>t.disabled=false);sl()}});
+function chk(g,el){if(locked)return;locked=true;const q=Q[n],f=$('#fb');
+document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(b.dataset.v===q.a)b.classList.add('good')});
+document.querySelectorAll('.tile,#ok,#hnt,#clr,#lis').forEach(b=>{if(b.id!='lis')b.disabled=true});
+if($('#ti'))$('#ti').disabled=true;if(!g&&el)el.classList.add('bad');
+if(g){sc+=10;ok++;rs[q.r-1]+=10;f.innerHTML=`<div class="yes">${pk(['EXCELLENT!','GREAT JOB!','AWESOME!'])} +10</div><div>${q.w.toUpperCase()} ${EM(q.w)}</div>`;
+$('#gb').classList.remove('dance');void $('#gb').offsetWidth;$('#gb').classList.add('dance');conf();snd([523,659,784,1047],.13)}
+else{ko++;wr.push({w:q.w,r:q.r});f.innerHTML=`<div class="no">${pk(['OOPS!','TRY AGAIN!'])}</div><div style="font-size:22px">Đáp án đúng / Correct: <b>${q.w.toUpperCase()}</b> ${EM(q.w)}</div>`;
+$('#card').classList.add('shake');snd([330,262],.2)}
+if(q.hide)$('#big').textContent=q.e;
+upd();const nx=$('#nx');nx.textContent=(n+1)%10==0?'🏆 XEM KẾT QUẢ VÒNG':'NEXT ➡';nx.style.display='inline-block'}
+function upd(){$('#st').textContent=`⭐ ${sc}  ✅ ${ok}  ❌ ${ko}`}
+function nxt(){if((n+1)%10==0){const r=Q[n].r;$('#bar').style.width=(n+1)/60*100+'%';$('#rb').textContent='🏅 Badge: '+BADGES[r-1];$('#rsc').textContent=`Round ${r}: ${rs[r-1]}/100`;go('rd');conf();snd([523,659,784,1047,1319],.15)}else{n++;show()}}
+function cont(){if(n==59)summ();else{n++;go('g');show()}}
+const rank=s=>s>=540?'🏆 SUPER SPELLING CHAMPION!':s>=480?'🥇 GOLDEN BEE!':s>=390?'🥈 SILVER BEE!':s>=300?'🥉 BRONZE BEE!':'🌟 KEEP TRYING!';
+function summ(){go('sm');$('#sn').textContent='🐝 '+name;$('#ss').textContent=sc+' / 600';$('#sr').textContent=rank(sc);
+$('#sd').innerHTML=`✅ Đúng: <b>${ok}</b> &nbsp; ❌ Sai: <b>${ko}</b> &nbsp; 🎯 Chính xác: <b>${Math.round(ok/60*100)}%</b>`;
+$('#tb').innerHTML=BADGES.map((b,i)=>`<tr><td>Round ${i+1}</td><td>${b}</td><td><b>${rs[i]}/100</b></td></tr>`).join('');conf();snd([523,659,784,1047,784,1047,1319],.15)}
+function rev(){go('rv');$('#rl').innerHTML=wr.length?wr.map(x=>`<div style="font-size:24px;margin:8px">${EM(x.w)} <b>${x.w.toUpperCase()}</b> <span class="sm">(Round ${x.r})</span></div>`).join(''):'<h2>🎉 Em không sai câu nào! Perfect!</h2>'}
+function cert(){go('ct');$('#cn').textContent=name;$('#cs').textContent=sc+'/600';$('#cr').textContent=rank(sc);$('#cd').textContent=new Date().toLocaleDateString('vi-VN')}
+function conf(){for(let i=0;i<30;i++){const s=document.createElement('span');s.className='cf';s.textContent=pk(['⭐','🎉','✨','🎊','🌟']);s.style.left=Math.random()*95+'%';s.style.animationDuration=1.5+Math.random()*1.5+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),3200)}}
+function say(t){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.65;u.pitch=1.1;
+const v=speechSynthesis.getVoices().find(v=>v.lang=='en-US');if(v)u.voice=v;speechSynthesis.cancel();speechSynthesis.speak(u)}
+function tone(f,t,d,v){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.type='triangle';g.gain.setValueAtTime(v||.15,ac.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+t+d);o.connect(g);g.connect(ac.destination);o.start(ac.currentTime+t);o.stop(ac.currentTime+t+d)}catch(e){}}
+function snd(a,d){if(sfx)a.forEach((f,i)=>tone(f,i*d,d*1.5))}
+function tog(){sfx=!sfx;document.querySelectorAll('.sndb').forEach(b=>b.textContent=b.textContent.includes('SOUND')||b.closest('#st0')?(sfx?'🔊 SOUND ON':'🔇 SOUND OFF'):(sfx?'🔊':'🔇'));if(!sfx&&mu)mus()}
+function mus(){mu=!mu;$('#mb').textContent=mu?'🎵 MUSIC ON':'🎵 MUSIC OFF';clearInterval(mt);if(mu){if(!sfx)tog();mt=setInterval(()=>tone(pk([392,440,523,587,659]),0,.5,.04),500)}}
+function fs(){const d=document,e=d.documentElement;if(d.fullscreenElement)d.exitFullscreen();else if(e.requestFullscreen)e.requestFullscreen().catch(()=>{})}
+</script></body></html>
